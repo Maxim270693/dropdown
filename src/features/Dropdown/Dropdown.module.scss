@@ -1,0 +1,38 @@
+.wrapper {
+  width: 400px;
+
+  .title {
+    font-weight: 500;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+  }
+
+  .dropdownBlock {
+    box-shadow: 0px 4px 32px rgba(51, 51, 51, 0.15);
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 8px;
+
+    .inputBlock {
+      position: relative;
+
+      .input {
+        width: 333px;
+        background: #f4f4f4;
+        border-radius: 10px;
+        padding: 10px 0 10px 36px;
+
+        font-weight: 400;
+        color: #c1c1c1;
+        border: none;
+      }
+
+      .searchIcon {
+        position: absolute;
+        top: 10px;
+        left: 12px;
+      }
+    }
+  }
+}

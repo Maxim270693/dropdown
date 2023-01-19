@@ -1,11 +1,11 @@
-import React from 'react';
+import { Dropdown } from "./features/Dropdown";
 
-import './App.scss';
+import "./App.scss";
 
 function App() {
   return (
     <div className="App">
-        DropDown
+      <Dropdown />
     </div>
   );
 }
