@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 import { Option } from "../Option";
 import { Input } from "../../components/Input";
@@ -15,7 +15,8 @@ import search from "../../images/search.png";
 import style from "./Dropdown.module.scss";
 
 export const Dropdown = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+  const [searchValue, setSearchValue] = useState("");
 
   const options = [
     {
@@ -56,6 +57,14 @@ export const Dropdown = () => {
     },
   ];
 
+  const searchOption = options.filter((option) =>
+    option.label.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
+  const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.currentTarget.value);
+  };
+
   return (
     <div className={style.wrapper}>
       <h5 className={style.title}>Язык</h5>
@@ -64,14 +73,26 @@ export const Dropdown = () => {
 
       <div className={isOpen ? style.dropdownBlock : style.dropdownBlockHidden}>
         <div className={style.inputBlock}>
-          <Input type="text" placeholder="Поиск" className={style.input} />
+          <Input
+            type="text"
+            placeholder="Поиск"
+            className={style.input}
+            searchValue={searchValue}
+            onChange={onChangeInputHandler}
+          />
           <img src={search} alt="searchIcon" className={style.searchIcon} />
         </div>
 
         <div>
-          {options.map((option, index) => (
-            <Option key={index} {...option} />
-          ))}
+          {searchOption.length ? (
+            searchOption.map((option, index) => (
+              <Option key={index} {...option} />
+            ))
+          ) : (
+            <div className={style.empty}>
+              К сожалению, не удалось найти Языки. 😕
+            </div>
+          )}
         </div>
       </div>
     </div>

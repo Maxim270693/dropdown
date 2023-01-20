@@ -1,22 +1,27 @@
+import { ChangeEvent } from "react";
+
 type InputPropsType = {
   type: string;
   placeholder?: string;
   className: string;
-  checked?: boolean;
+  searchValue: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const Input = ({
   type,
   placeholder,
   className,
-  checked,
+  searchValue,
+  onChange,
 }: InputPropsType) => {
   return (
     <input
       type={type}
       placeholder={placeholder}
       className={className}
-      checked={checked}
+      value={searchValue}
+      onChange={onChange}
     />
   );
 };

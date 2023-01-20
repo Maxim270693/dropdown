@@ -1,5 +1,3 @@
-import { Input } from "../../components/Input";
-
 import style from "./Option.module.scss";
 
 type OptionPropsType = {
@@ -16,7 +14,7 @@ export const Option = ({ label, image, isChecked }: OptionPropsType) => {
         <div className={style.optionTitle}>{label}</div>
       </div>
 
-      <Input type="checkbox" checked={isChecked} className={style.checkbox} />
+      <input type="checkbox" checked={isChecked} className={style.checkbox} />
     </div>
   );
 };
