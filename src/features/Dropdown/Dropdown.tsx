@@ -13,63 +13,77 @@ import PL from "../../images/PL.png";
 import search from "../../images/search.png";
 
 import style from "./Dropdown.module.scss";
+import { OptionType } from "../../types/types";
 
 export const Dropdown = () => {
   const [isOpen, setIsOpen] = useState(true);
   const [searchValue, setSearchValue] = useState("");
 
-  const options = [
+  const [options, setOptions] = useState<OptionType[]>([
     {
-      id: new Date().getTime(),
+      id: 1,
       label: "Русский",
       image: RU,
       isChecked: false,
     },
     {
-      id: new Date().getTime(),
+      id: 2,
       label: "Английский",
       image: UK,
       isChecked: false,
     },
     {
-      id: new Date().getTime(),
+      id: 3,
       label: "Испанский",
       image: ES,
       isChecked: false,
     },
     {
-      id: new Date().getTime(),
+      id: 4,
       label: "Немецкий",
       image: DE,
       isChecked: false,
     },
     {
-      id: new Date().getTime(),
+      id: 5,
       label: "Итальянский",
       image: IT,
       isChecked: false,
     },
     {
-      id: new Date().getTime(),
+      id: 6,
       label: "Польский",
       image: PL,
       isChecked: false,
     },
-  ];
-
-  const searchOption = options.filter((option) =>
-    option.label.toLowerCase().includes(searchValue.toLowerCase())
-  );
+  ]);
 
   const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.currentTarget.value);
   };
 
+  const onChangeCheckedHandler = (id: number) => {
+    const checkedLanguage = searchOption.map((language) =>
+      language.id === id
+        ? { ...language, isChecked: !language.isChecked }
+        : language
+    );
+    setOptions(checkedLanguage);
+  };
+
+  const searchOption = options.filter((option) =>
+    option.label.toLowerCase().includes(searchValue.toLowerCase())
+  );
+
   return (
     <div className={style.wrapper}>
       <h5 className={style.title}>Язык</h5>
 
-      <SelectedLanguage isOpen={isOpen} setIsOpen={setIsOpen} />
+      <SelectedLanguage
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        options={options}
+      />
 
       <div className={isOpen ? style.dropdownBlock : style.dropdownBlockHidden}>
         <div className={style.inputBlock}>
@@ -86,7 +100,11 @@ export const Dropdown = () => {
         <div>
           {searchOption.length ? (
             searchOption.map((option, index) => (
-              <Option key={index} {...option} />
+              <Option
+                key={index}
+                {...option}
+                onChange={onChangeCheckedHandler}
+              />
             ))
           ) : (
             <div className={style.empty}>

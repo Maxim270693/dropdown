@@ -1,9 +1,11 @@
 .selectedLanguage {
   position: relative;
   display: flex;
-  height: 40px;
+  flex-wrap: wrap;
+  min-height: 40px;
   border: 1px solid #c1c1c1;
   border-radius: 10px;
+  padding: 8px 0 0 10px;
 
   .arrow {
     position: absolute;
@@ -22,9 +24,10 @@
     padding: 6px 12px;
     gap: 8px;
     width: 114px;
-    margin: 7px 4px 9px 0;
+    margin: 0 4px 9px 0;
     background: #f4f4f4;
     border-radius: 8px;
+    min-height: 19px;
 
     .language {
       font-weight: 500;
@@ -33,10 +36,6 @@
       display: flex;
       align-items: center;
       text-align: center;
-    }
-
-    &:first-child {
-      margin-left: 10px;
     }
 
     .removeIcon {
