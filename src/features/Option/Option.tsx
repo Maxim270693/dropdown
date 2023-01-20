@@ -1,11 +1,9 @@
 import style from "./Option.module.scss";
+import { OptionType } from "../../types/types";
 
-type OptionPropsType = {
-  id: number;
-  label: string;
-  image: string;
-  isChecked: boolean;
-  onChange: (id: number) => void;
+type OptionPropsType = OptionType & {
+  onClick: (id: number) => void;
+  isMultiselect: boolean;
 };
 
 export const Option = ({
@@ -13,22 +11,27 @@ export const Option = ({
   label,
   image,
   isChecked,
-  onChange,
+  onClick,
+  isMultiselect,
 }: OptionPropsType) => {
   return (
-    <div className={style.option}>
+    <div className={isMultiselect ? style.option : style.optionHover}>
       <div className={style.optionItem}>
         <img src={image} alt="country" className={style.img} />
-        <div className={style.optionTitle}>{label}</div>
+        <div className={style.optionTitle} onClick={() => onClick(id)}>
+          {label}
+        </div>
       </div>
 
-      <input
-        type="checkbox"
-        checked={isChecked}
-        className={style.checkbox}
-        onClick={() => onChange(id)}
-        onChange={() => {}}
-      />
+      {isMultiselect && (
+        <input
+          type="checkbox"
+          checked={isChecked}
+          className={style.checkbox}
+          onClick={() => onClick(id)}
+          onChange={() => {}}
+        />
+      )}
     </div>
   );
 };

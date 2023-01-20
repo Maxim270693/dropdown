@@ -9,31 +9,38 @@ type SelectedLanguagePropsType = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   options: OptionType[];
+  onClickCheckedHandler: (id: number) => void;
+  selected: string;
+  isMultiselect: boolean;
 };
 
 export const SelectedLanguage = ({
   isOpen,
   setIsOpen,
   options,
+  onClickCheckedHandler,
+  selected,
+  isMultiselect,
 }: SelectedLanguagePropsType) => {
-  const selectedLanguage = options.filter((item) => {
-    if (item.isChecked) {
-      return item;
-    }
-  });
+  const selectedLanguage = options.filter((item) => item.isChecked);
 
   return (
     <div className={style.selectedLanguage}>
-      {selectedLanguage.map((item) => (
-        <div className={style.languageBlock}>
-          <div className={style.language}>{item.label}</div>
-          <img
-            src={removeIcon}
-            alt="removeLanguage"
-            className={style.removeIcon}
-          />
-        </div>
-      ))}
+      {isMultiselect
+        ? selectedLanguage.map((item) => {
+            return (
+              <div key={item.id} className={style.languageBlock}>
+                <div className={style.language}>{item.label}</div>
+                <img
+                  src={removeIcon}
+                  alt="removeLanguage"
+                  className={style.removeIcon}
+                  onClick={() => onClickCheckedHandler(item.id)}
+                />
+              </div>
+            );
+          })
+        : selected}
       <img
         src={isOpen ? arrowUp : arrowBottom}
         alt="arrow"

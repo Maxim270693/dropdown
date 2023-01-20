@@ -15,10 +15,13 @@ import search from "../../images/search.png";
 import style from "./Dropdown.module.scss";
 import { OptionType } from "../../types/types";
 
-export const Dropdown = () => {
+type DropdownPropsType = {
+  isMultiselect: boolean;
+};
+
+export const Dropdown = ({ isMultiselect }: DropdownPropsType) => {
   const [isOpen, setIsOpen] = useState(true);
   const [searchValue, setSearchValue] = useState("");
-
   const [options, setOptions] = useState<OptionType[]>([
     {
       id: 1,
@@ -57,17 +60,22 @@ export const Dropdown = () => {
       isChecked: false,
     },
   ]);
+  const [selected, setSelected] = useState("");
 
   const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.currentTarget.value);
   };
 
-  const onChangeCheckedHandler = (id: number) => {
+  const onClickCheckedHandler = (id: number) => {
     const checkedLanguage = searchOption.map((language) =>
       language.id === id
         ? { ...language, isChecked: !language.isChecked }
         : language
     );
+    if (!isMultiselect) {
+      setIsOpen(false);
+      setSelected(searchOption.find((option) => option.id === id)?.label || "");
+    }
     setOptions(checkedLanguage);
   };
 
@@ -83,6 +91,9 @@ export const Dropdown = () => {
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         options={options}
+        onClickCheckedHandler={onClickCheckedHandler}
+        isMultiselect={isMultiselect}
+        selected={selected}
       />
 
       <div className={isOpen ? style.dropdownBlock : style.dropdownBlockHidden}>
@@ -103,7 +114,8 @@ export const Dropdown = () => {
               <Option
                 key={index}
                 {...option}
-                onChange={onChangeCheckedHandler}
+                onClick={onClickCheckedHandler}
+                isMultiselect={isMultiselect}
               />
             ))
           ) : (
