@@ -1,9 +1,18 @@
 import removeIcon from "../../images/removeIcon.png";
 import arrowUp from "../../images/arrowUp.png";
+import arrowBottom from "../../images/arrowBottom.png";
 
 import style from "./SelectedLanguage.module.scss";
 
-export const SelectedLanguage = () => {
+type SelectedLanguagePropsType = {
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
+};
+
+export const SelectedLanguage = ({
+  isOpen,
+  setIsOpen,
+}: SelectedLanguagePropsType) => {
   return (
     <div className={style.selectedLanguage}>
       <div className={style.languageBlock}>
@@ -24,7 +33,12 @@ export const SelectedLanguage = () => {
         />
       </div>
 
-      <img src={arrowUp} alt="removeLanguage" className={style.arrowUp} />
+      <img
+        src={isOpen ? arrowUp : arrowBottom}
+        alt="arrow"
+        className={style.arrow}
+        onClick={() => setIsOpen(!isOpen)}
+      />
     </div>
   );
 };

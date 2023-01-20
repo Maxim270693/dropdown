@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { Option } from "../Option";
 import { Input } from "../../components/Input";
 import { SelectedLanguage } from "../SelectedLanguage";
@@ -13,6 +15,8 @@ import search from "../../images/search.png";
 import style from "./Dropdown.module.scss";
 
 export const Dropdown = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const options = [
     {
       id: new Date().getTime(),
@@ -56,17 +60,17 @@ export const Dropdown = () => {
     <div className={style.wrapper}>
       <h5 className={style.title}>Язык</h5>
 
-      <SelectedLanguage />
+      <SelectedLanguage isOpen={isOpen} setIsOpen={setIsOpen} />
 
-      <div className={style.dropdownBlock}>
+      <div className={isOpen ? style.dropdownBlock : style.dropdownBlockHidden}>
         <div className={style.inputBlock}>
           <Input type="text" placeholder="Поиск" className={style.input} />
           <img src={search} alt="searchIcon" className={style.searchIcon} />
         </div>
 
         <div>
-          {options.map((option) => (
-            <Option key={option.id} {...option} />
+          {options.map((option, index) => (
+            <Option key={index} {...option} />
           ))}
         </div>
       </div>
