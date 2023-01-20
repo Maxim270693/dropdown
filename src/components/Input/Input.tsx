@@ -1,9 +1,22 @@
 type InputPropsType = {
   type: string;
-  placeholder: string;
+  placeholder?: string;
   className: string;
+  checked?: boolean;
 };
 
-export const Input = ({ type, placeholder, className }: InputPropsType) => {
-  return <input type={type} placeholder={placeholder} className={className} />;
+export const Input = ({
+  type,
+  placeholder,
+  className,
+  checked,
+}: InputPropsType) => {
+  return (
+    <input
+      type={type}
+      placeholder={placeholder}
+      className={className}
+      checked={checked}
+    />
+  );
 };
