@@ -16,10 +16,18 @@ import style from "./Dropdown.module.scss";
 import { OptionType } from "../../types/types";
 
 type DropdownPropsType = {
+  selected: string;
+  setSelected: (selected: string) => void;
   isMultiselect: boolean;
+  isShowImage: boolean;
 };
 
-export const Dropdown = ({ isMultiselect }: DropdownPropsType) => {
+export const Dropdown = ({
+  selected,
+  setSelected,
+  isMultiselect,
+  isShowImage,
+}: DropdownPropsType) => {
   const [isOpen, setIsOpen] = useState(true);
   const [searchValue, setSearchValue] = useState("");
   const [options, setOptions] = useState<OptionType[]>([
@@ -60,7 +68,6 @@ export const Dropdown = ({ isMultiselect }: DropdownPropsType) => {
       isChecked: false,
     },
   ]);
-  const [selected, setSelected] = useState("");
 
   const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(event.currentTarget.value);
@@ -75,6 +82,7 @@ export const Dropdown = ({ isMultiselect }: DropdownPropsType) => {
     if (!isMultiselect) {
       setIsOpen(false);
       setSelected(searchOption.find((option) => option.id === id)?.label || "");
+      return;
     }
     setOptions(checkedLanguage);
   };
@@ -82,6 +90,24 @@ export const Dropdown = ({ isMultiselect }: DropdownPropsType) => {
   const searchOption = options.filter((option) =>
     option.label.toLowerCase().includes(searchValue.toLowerCase())
   );
+
+  const renderSearchOption = () => {
+    if (searchOption.length) {
+      return searchOption.map((option, index) => (
+        <Option
+          key={index}
+          {...option}
+          onClick={onClickCheckedHandler}
+          isMultiselect={isMultiselect}
+          isShowImage={isShowImage}
+        />
+      ));
+    }
+
+    return (
+      <div className={style.empty}>К сожалению, не удалось найти Языки. 😕</div>
+    );
+  };
 
   return (
     <div className={style.wrapper}>
@@ -108,22 +134,7 @@ export const Dropdown = ({ isMultiselect }: DropdownPropsType) => {
           <img src={search} alt="searchIcon" className={style.searchIcon} />
         </div>
 
-        <div>
-          {searchOption.length ? (
-            searchOption.map((option, index) => (
-              <Option
-                key={index}
-                {...option}
-                onClick={onClickCheckedHandler}
-                isMultiselect={isMultiselect}
-              />
-            ))
-          ) : (
-            <div className={style.empty}>
-              К сожалению, не удалось найти Языки. 😕
-            </div>
-          )}
-        </div>
+        <div>{renderSearchOption()}</div>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import { OptionType } from "../../types/types";
 type OptionPropsType = OptionType & {
   onClick: (id: number) => void;
   isMultiselect: boolean;
+  isShowImage?: boolean;
 };
 
 export const Option = ({
@@ -13,14 +14,16 @@ export const Option = ({
   isChecked,
   onClick,
   isMultiselect,
+  isShowImage,
 }: OptionPropsType) => {
   return (
-    <div className={isMultiselect ? style.option : style.optionHover}>
+    <div
+      className={isMultiselect ? style.option : style.optionHover}
+      onClick={() => onClick(id)}
+    >
       <div className={style.optionItem}>
-        <img src={image} alt="country" className={style.img} />
-        <div className={style.optionTitle} onClick={() => onClick(id)}>
-          {label}
-        </div>
+        {isShowImage && <img src={image} alt="country" className={style.img} />}
+        <div className={style.optionTitle}>{label}</div>
       </div>
 
       {isMultiselect && (
